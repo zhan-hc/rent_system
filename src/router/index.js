@@ -58,21 +58,17 @@ const router = new Router({
 router.beforeEach((to, from, next) => {
   if (to.matched.some(m => m.meta.requireAuth)) { // 需要登录
     if (window.localStorage.token) {
-      console.log('1')
       next()
     } else if (to.path !== '/Login') {
       let token = window.localStorage.token
       if (token === 'null' || token === '' || token === undefined) {
         next({path: '/Login'})
-        console.log('2')
         alert('检测到您还未登录,请登录后操作！')
       }
     } else {
-      console.log('3')
       next()
     }
   } else { // 不需要登录
-    console.log('4')
     next()
   }
 })

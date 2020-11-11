@@ -178,13 +178,12 @@ export default {
           'imgUrl': this.formItem.imgUrl
         }
       }).then((res) => {
-        console.log(res)
         if (res.data.status === 200) {
           this.$Message.success(this.type === 1 ? '添加成功' : '更改成功')
           this.modal1 = false
           this.infoList()
         } else {
-          this.$Message.error(res.data.msg)
+          this.$Message.error(res.data.msg.sqlMessage)
         }
       })
     },
@@ -213,7 +212,6 @@ export default {
       this.infoList()
     },
     uploadSuccess (res, file, fileList) {
-      console.log(res)
       this.formItem.imgUrl = `http://localhost:8080/static${res.data}`
     },
     uploadError (error, file, fileList) {
