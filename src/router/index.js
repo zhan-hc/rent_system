@@ -11,6 +11,7 @@ const router = new Router({
     {
       path: '/Index',
       name: 'Index',
+      redirect: '/Index/User', // 重定向
       component: Index,
       meta: {
         requireAuth: true // 是否需要登录验证
