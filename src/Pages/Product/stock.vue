@@ -1,5 +1,9 @@
 <template>
   <div class="Stock">
+    <div style="margin-bottom:20px">
+      <Input v-model="search" placeholder="请输入关键词搜索" style="width: 300px;"/>
+      <Button type="primary" @click="handleSearch">搜索</Button>
+    </div>
     <Button type="primary" @click="modal1= true;type=1">新增礼服</Button>
     <Table border max-height="500" align="center" :columns="columns" :data="data" class="Stock-table"></Table>
     <Page :total="total" @on-change="changePage"/>
@@ -7,18 +11,18 @@
       <div slot="header">{{type === 1 ? '新增礼服' : '修改礼服'}}</div>
       <Form :label-width="80"  :model="formItem" ref="formValidate" :rules="ruleValidate">
         <FormItem label="礼服" prop="pid">
-          <Select v-model="formItem.pid" style="width:200px" placeholder="请选择礼服" @on-change="getProduct">
+          <Select v-model="formItem.pid" style="width:200px" placeholder="请选择礼服" @on-change="getProduct" :disabled="IfTypeAdd">
             <Option v-for="item in productList" :value="item.pid" :key="item.pid">{{ item.product_name }}</Option>
           </Select>
         </FormItem>
         <FormItem label="颜色" prop="cid">
-          <Radio-group v-show="pid ? true :false" v-model="formItem.cid" @on-change="getColor">
-              <Radio  v-for="item in colList" :label="item.cid" :key="item.cid">{{ item.product_color }}</Radio>
+          <Radio-group v-show="pid||IfTypeAdd" v-model="formItem.cid" @on-change="getColor">
+              <Radio  v-for="item in colList" :label="item.cid" :key="item.cid" :disabled="IfTypeAdd">{{ item.product_color }}</Radio>
             </Radio-group>
         </FormItem>
         <FormItem label="尺寸" prop="sid">
-          <Checkbox-group  v-show="pid ? true :false" v-model="formItem.sid">
-            <Checkbox  v-for="item in szList" :label="item.sid" :key="item.sid"><span>{{ item.product_size }}</span></Checkbox>
+          <Checkbox-group  v-show="pid||IfTypeAdd" v-model="formItem.sid">
+            <Checkbox  v-for="item in szList" :label="item.sid" :key="item.sid" :disabled="IfTypeAdd"><span>{{ item.product_size }}</span></Checkbox>
           </Checkbox-group>
         </FormItem>
         <FormItem label="库存" prop="stock">
@@ -74,7 +78,7 @@ export default {
                 },
                 on: {
                   click: () => {
-                    // this.getIdInfo(params.row.pid)
+                    this.getIdStock(params.row.id)
                   }
                 }
               }, '编辑'),
@@ -85,7 +89,7 @@ export default {
                 },
                 on: {
                   click: () => {
-                    // this.deleteProduct(params.row.pid)
+                    this.deleteStock(params.row.id)
                   }
                 }
               }, '删除')
@@ -108,6 +112,7 @@ export default {
         ]
       },
       formItem: {
+        id: null,
         pid: null,
         cid: null,
         sid: [],
@@ -120,6 +125,7 @@ export default {
       szList: [],
       newszList: [],
       pid: null,
+      search: '',
       type: 1,
       total: 0,
       pageNo: 1,
@@ -140,12 +146,28 @@ export default {
         }
       })
     },
+    handleSearch () {
+      if (!this.search) {
+        this.stockList()
+      } else {
+        this.$axios({
+          method: 'get',
+          url: `/api/product/stock/getLikeStock/${this.search}/${this.pageNo}/${this.pageSize}`
+        }).then((res) => {
+          if (res.data.status === 200) {
+            this.data = res.data.data
+            this.total = res.data.total
+          } else {
+            this.$Message.error(res.data.msg)
+          }
+        })
+      }
+    },
     stockList () {
       this.$axios({
         method: 'get',
         url: `/api/product/stock/stockList/${this.pageNo}/${this.pageSize}`
       }).then((res) => {
-        console.log(res)
         if (res.data.status === 200) {
           this.data = res.data.data
           this.total = res.data.total
@@ -198,7 +220,7 @@ export default {
       this.formItem.sid = [] // 初始化尺寸
       this.$axios({
         method: 'get',
-        url: `/api/product/stock/getIdStock/${this.pid}/${id}`
+        url: `/api/product/stock/getCidStock/${this.pid}/${id}`
       }).then((res) => {
         const allsid = this.newszList
         const newsid = res.data.data.map(item => item.sid)
@@ -211,7 +233,9 @@ export default {
         method: 'POST',
         url: this.type === 1 ? '/api/product/stock/addStock' : '/api/product/Stock/updateStock',
         data: {
-          'formItem': this.formItem
+          'formItem': this.formItem,
+          'id': this.formItem.id,
+          'stock': this.formItem.stock
         }
       }).then((res) => {
         console.log(res)
@@ -221,6 +245,47 @@ export default {
           this.stockList()
         } else {
           this.$Message.error(res.data.msg.sqlMessage)
+        }
+      })
+    },
+    getIdStock (id) {
+      this.modal1 = true
+      this.type = 2
+      this.$axios({
+        method: 'get',
+        url: `/api/product/stock/getIdStock/${id}`
+      }).then((res) => {
+        console.log(res)
+        if (res.data.status === 200) {
+          let formData = res.data.data[0]
+          this.formItem = {
+            id: formData.id,
+            pid: formData.pid,
+            cid: formData.cid,
+            sid: [formData.sid],
+            stock: formData.stock
+          }
+        } else {
+          this.$Message.error(res.data.msg)
+        }
+      })
+    },
+    deleteStock (id) {
+      this.$Modal.confirm({
+        title: '删除提示',
+        content: '是否确认删除？',
+        onOk: () => {
+          this.$axios({
+            method: 'get',
+            url: `/api/product/stock/deleteStock/${id}`
+          }).then((res) => {
+            if (res.data.status === 200) {
+              this.$Message.success(res.data.msg)
+              this.stockList()
+            } else {
+              this.$Message.error(res.data.msg.sqlMessage)
+            }
+          })
         }
       })
     },
@@ -238,6 +303,11 @@ export default {
       }
       this.szList = this.newszList
       this.$refs['formValidate'].resetFields()
+    }
+  },
+  computed: {
+    IfTypeAdd () {
+      return this.type !== 1
     }
   },
   components: {
