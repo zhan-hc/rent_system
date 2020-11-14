@@ -2,7 +2,7 @@
   <div class="Stock">
     <div style="margin-bottom:20px">
       <Input v-model="search" placeholder="请输入关键词搜索" style="width: 300px;"/>
-      <Button type="primary" @click="handleSearch">搜索</Button>
+      <Button type="primary" @click="stockList">搜索</Button>
     </div>
     <Button type="primary" @click="modal1= true;type=1">新增礼服</Button>
     <Table border max-height="500" align="center" :columns="columns" :data="data" class="Stock-table"></Table>
@@ -146,27 +146,15 @@ export default {
         }
       })
     },
-    handleSearch () {
-      if (!this.search) {
-        this.stockList()
-      } else {
-        this.$axios({
-          method: 'get',
-          url: `/api/product/stock/getLikeStock/${this.search}/${this.pageNo}/${this.pageSize}`
-        }).then((res) => {
-          if (res.data.status === 200) {
-            this.data = res.data.data
-            this.total = res.data.total
-          } else {
-            this.$Message.error(res.data.msg)
-          }
-        })
-      }
-    },
     stockList () {
       this.$axios({
         method: 'get',
-        url: `/api/product/stock/stockList/${this.pageNo}/${this.pageSize}`
+        url: `/api/product/stock/stockList`,
+        params: {
+          name: this.search || null,
+          pageNo: this.pageNo,
+          pageSize: this.pageSize
+        }
       }).then((res) => {
         if (res.data.status === 200) {
           this.data = res.data.data

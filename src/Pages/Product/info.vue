@@ -135,7 +135,11 @@ export default {
     infoList () {
       this.$axios({
         method: 'get',
-        url: `/api/product/info/infoList/${this.pageNo}/${this.pageSize}`
+        url: `/api/product/info/infoList`,
+        params: {
+          pageNo: this.pageNo,
+          pageSize: this.pageSize
+        }
       }).then((res) => {
         if (res.data.status === 200) {
           this.data = res.data.data

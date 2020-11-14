@@ -96,7 +96,11 @@ export default {
     sizeList () {
       this.$axios({
         method: 'get',
-        url: `/api/product/size/sizeList/${this.pageNo}/${this.pageSize}`
+        url: `/api/product/size/sizeList`,
+        params: {
+          pageNo: this.pageNo,
+          pageSize: this.pageSize
+        }
       }).then((res) => {
         if (res.data.status === 200) {
           this.data = res.data.data

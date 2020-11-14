@@ -96,7 +96,11 @@ export default {
     colorList () {
       this.$axios({
         method: 'get',
-        url: `/api/product/color/colorList/${this.pageNo}/${this.pageSize}`
+        url: `/api/product/color/colorList`,
+        params: {
+          pageNo: this.pageNo,
+          pageSize: this.pageSize
+        }
       }).then((res) => {
         if (res.data.status === 200) {
           this.data = res.data.data
