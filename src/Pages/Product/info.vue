@@ -216,7 +216,7 @@ export default {
       this.infoList()
     },
     uploadSuccess (res, file, fileList) {
-      this.formItem.imgUrl = `http://localhost:8080/static${res.data}`
+      this.formItem.imgUrl = `/api/static${res.data}`
     },
     uploadError (error, file, fileList) {
       console.log(error)

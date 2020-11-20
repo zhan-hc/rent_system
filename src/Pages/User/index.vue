@@ -40,7 +40,11 @@ export default {
     userList () {
       this.$axios({
         method: 'get',
-        url: `/api/user/userList/${this.pageNo}/${this.pageSize}`
+        url: '/api/user/userList',
+        params: {
+          pageNo: this.pageNo,
+          pageSize: this.pageSize
+        }
       }).then((res) => {
         if (res.data.status === 200) {
           this.Userdata = res.data.data
