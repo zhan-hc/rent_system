@@ -9,6 +9,10 @@ const router = new Router({
   mode: 'history',
   routes: [
     {
+      path: '/',
+      redirect: '/Index/User'
+    },
+    {
       path: '/Index',
       name: 'Index',
       redirect: '/Index/User', // 重定向

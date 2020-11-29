@@ -22,6 +22,9 @@
           </Upload>
           <img v-show="formItem.imgUrl" :src="formItem.imgUrl" alt="上传图片" style="width:100px;height:120px"/>
         </FormItem>
+        <FormItem label="礼服押金" prop="deposit">
+          <InputNumber type="text" v-model="formItem.deposit" style="width:200px;"/>
+        </FormItem>
       </Form>
       <div slot="footer">
         <Button type="primary" @click="handleSubmit('formValidate')">确认</Button>
@@ -47,6 +50,10 @@ export default {
         {
           title: '礼服价格',
           key: 'product_price'
+        },
+        {
+          title: '礼服押金',
+          key: 'product_deposit'
         },
         {
           title: '礼服图片',
@@ -103,7 +110,8 @@ export default {
         pid: null,
         name: '',
         price: null,
-        imgUrl: ''
+        imgUrl: '',
+        deposit: null
       },
       ruleValidate: {
         name: [
@@ -111,6 +119,9 @@ export default {
         ],
         price: [
           { required: true, message: '价格不能为空', trigger: 'blur', type: 'integer' }
+        ],
+        deposit: [
+          { required: true, message: '押金不能为空', trigger: 'blur', type: 'integer' }
         ]
       },
       type: 1, // 1是新增2是更改
@@ -163,7 +174,8 @@ export default {
             pid: id,
             name: formData.product_name,
             price: formData.product_price,
-            imgUrl: formData.product_img
+            imgUrl: formData.product_img,
+            deposit: formData.product_deposit
           }
         } else {
           this.$Message.error(res.data.msg)
@@ -179,7 +191,8 @@ export default {
           'pid': this.formItem.pid,
           'name': this.formItem.name,
           'price': this.formItem.price,
-          'imgUrl': this.formItem.imgUrl
+          'imgUrl': this.formItem.imgUrl,
+          'deposit': this.formItem.deposit
         }
       }).then((res) => {
         if (res.data.status === 200) {
