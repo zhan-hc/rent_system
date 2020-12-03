@@ -1,13 +1,13 @@
 <template>
-  <div class="Size">
-    <Button type="primary" @click="modal1= true;type=1">新增尺寸</Button>
-    <Table border max-height="500" align="center" :columns="columns1" :data="data" class="Size-table"></Table>
+  <div class="Category">
+    <Button type="primary" @click="modal1= true;type=1">新增类别</Button>
+    <Table border max-height="500" align="center" :columns="columns1" :data="data" class="Category-table"></Table>
     <Page :total="total" @on-change="changePage"/>
     <Modal v-model="modal1">
-      <div slot="header">{{type === 1 ? '新增尺寸' : '修改尺寸'}}</div>
+      <div slot="header">{{type === 1 ? '新增类别' : '修改类别'}}</div>
       <Form :label-width="80" :model="formItem" ref="formValidate" :rules="ruleValidate">
-        <FormItem label="礼服尺寸" prop="size">
-          <Input type="text" v-model="formItem.size" style="width:200px;"/>
+        <FormItem label="礼服类别" prop="category">
+          <Input type="text" v-model="formItem.category" style="width:200px;"/>
         </FormItem>
       </Form>
       <div slot="footer">
@@ -25,11 +25,11 @@ export default {
       columns1: [
         {
           title: 'id',
-          key: 'sid'
+          key: 'id'
         },
         {
-          title: '尺寸',
-          key: 'product_size'
+          title: '类别',
+          key: 'product_category'
         },
         {
           title: '操作',
@@ -39,25 +39,25 @@ export default {
               h('Button', {
                 props: {
                   type: 'primary',
-                  size: 'small'
+                  category: 'small'
                 },
                 style: {
                   marginRight: '5px'
                 },
                 on: {
                   click: () => {
-                    this.getIdSize(params.row.sid)
+                    this.getIdCategory(params.row.id)
                   }
                 }
               }, '编辑'),
               h('Button', {
                 props: {
                   type: 'error',
-                  size: 'small'
+                  category: 'small'
                 },
                 on: {
                   click: () => {
-                    this.deleteSize(params.row.sid)
+                    this.deleteCategory(params.row.id)
                   }
                 }
               }, '删除')
@@ -66,14 +66,14 @@ export default {
         }
       ],
       ruleValidate: {
-        size: [
+        category: [
           { required: true, message: '尺寸不能为空', trigger: 'blur' }
         ]
       },
       modal1: false,
       formItem: {
-        size: '',
-        sid: null
+        category: '',
+        id: null
       },
       type: 1,
       data: [],
@@ -84,20 +84,20 @@ export default {
     }
   },
   mounted () {
-    this.sizeList()
+    this.categoryList()
   },
   methods: {
     handleSubmit (name) {
       this.$refs[name].validate((valid) => {
         if (valid) {
-          this.addSize()
+          this.addCategory()
         }
       })
     },
-    sizeList () {
+    categoryList () {
       this.$axios({
         method: 'get',
-        url: `/api/product/size/sizeList`,
+        url: `/api/product/category/categoryList`,
         params: {
           pageNo: this.pageNo,
           pageSize: this.pageSize
@@ -112,55 +112,55 @@ export default {
       })
     },
     // 根据id获取尺寸信息
-    getIdSize (id) {
+    getIdCategory (id) {
       this.modal1 = true
       this.type = 2
       this.$axios({
         method: 'get',
-        url: `/api/product/size/getIdSize/${id}`
+        url: `/api/product/category/getIdCategory/${id}`
       }).then((res) => {
         if (res.data.status === 200) {
           let formData = res.data.data[0]
-          this.formItem.sid = id
-          this.formItem.size = formData.product_size
+          this.formItem.id = id
+          this.formItem.category = formData.product_category
         } else {
           this.$Message.error(res.data.msg)
         }
       })
     },
     // 添加和更改尺寸信息
-    addSize () {
+    addCategory () {
       this.$axios({
         method: 'POST',
-        url: this.type === 1 ? '/api/product/size/addSize' : '/api/product/size/updateSize',
+        url: this.type === 1 ? '/api/product/category/addCategory' : '/api/product/category/updateCategory',
         data: {
-          'sid': this.formItem.sid,
-          'size': this.formItem.size
+          'id': this.formItem.id,
+          'category': this.formItem.category
         }
       }).then((res) => {
         console.log(res)
         if (res.data.status === 200) {
           this.$Message.success(this.type === 1 ? '添加成功' : '更改成功')
           this.modal1 = false
-          this.sizeList()
+          this.categoryList()
         } else {
           this.$Message.error(res.data.msg.sqlMessage)
         }
       })
     },
     // 删除尺寸
-    deleteSize (id) {
+    deleteCategory (id) {
       this.$Modal.confirm({
         title: '删除提示',
         content: '是否确认删除？',
         onOk: () => {
           this.$axios({
             method: 'get',
-            url: `/api/product/size/deleteSize/${id}`
+            url: `/api/product/category/deleteCategory/${id}`
           }).then((res) => {
             if (res.data.status === 200) {
               this.$Message.success(res.data.msg)
-              this.sizeList()
+              this.categoryList()
             } else {
               this.$Message.error(res.data.msg)
             }
@@ -170,11 +170,11 @@ export default {
     },
     changePage (currentPage) {
       this.pageNo = currentPage
-      this.sizeList()
+      this.categoryList()
     },
     closeModal () {
       this.modal1 = false
-      this.size = ''
+      this.category = ''
       this.$refs['formValidate'].resetFields()
     }
   },
@@ -184,7 +184,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.Size{
+.Category{
   &-table{
     margin: 20px 0;
   }

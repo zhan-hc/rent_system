@@ -12,6 +12,11 @@
         <FormItem label="礼服价格" prop="price">
           <InputNumber type="text" v-model="formItem.price" style="width:200px;"/>
         </FormItem>
+        <FormItem label="类别" prop="cid">
+          <Radio-group v-model="formItem.cid">
+            <Radio  v-for="item in category" :label="item.id" :key="item.id">{{ item.product_category }}</Radio>
+          </Radio-group>
+        </FormItem>
         <FormItem label="礼服图片">
           <Upload action="/api/upload/img" name="test"
             :on-format-error="handleFormatError"
@@ -46,6 +51,10 @@ export default {
         {
           title: '礼服名称',
           key: 'product_name'
+        },
+        {
+          title: '礼服类别',
+          key: 'product_category'
         },
         {
           title: '礼服价格',
@@ -111,11 +120,15 @@ export default {
         name: '',
         price: null,
         imgUrl: '',
+        cid: null,
         deposit: null
       },
       ruleValidate: {
         name: [
           { required: true, message: '名称不能为空', trigger: 'blur' }
+        ],
+        cid: [
+          { required: true, message: '请选择礼服类别', type: 'number', trigger: 'change' }
         ],
         price: [
           { required: true, message: '价格不能为空', trigger: 'blur', type: 'integer' }
@@ -127,6 +140,7 @@ export default {
       type: 1, // 1是新增2是更改
       modal1: false,
       data: [],
+      category: [],
       total: 0,
       pageNo: 1,
       pageSize: 10
@@ -134,6 +148,7 @@ export default {
   },
   mounted () {
     this.infoList()
+    this.getCategoryList()
   },
   methods: {
     handleSubmit (name) {
@@ -182,6 +197,18 @@ export default {
         }
       })
     },
+    getCategoryList () {
+      this.$axios({
+        method: 'get',
+        url: `/api/product/category/categoryList`
+      }).then((res) => {
+        if (res.data.status === 200) {
+          this.category = res.data.data
+        } else {
+          this.$Message.error(res.data.msg)
+        }
+      })
+    },
     // 添加和更改礼服信息
     addProduct () {
       this.$axios({
@@ -189,16 +216,14 @@ export default {
         url: this.type === 1 ? '/api/product/info/addProduct' : '/api/product/info/updateProduct',
         data: {
           'pid': this.formItem.pid,
-          'name': this.formItem.name,
-          'price': this.formItem.price,
-          'imgUrl': this.formItem.imgUrl,
-          'deposit': this.formItem.deposit
+          ...this.formItem
         }
       }).then((res) => {
         if (res.data.status === 200) {
           this.$Message.success(this.type === 1 ? '添加成功' : '更改成功')
           this.modal1 = false
           this.infoList()
+          this.$refs['formValidate'].resetFields()
         } else {
           this.$Message.error(res.data.msg.sqlMessage)
         }
@@ -239,11 +264,6 @@ export default {
     },
     closeModal () {
       this.modal1 = false
-      this.formItem = {
-        name: '',
-        price: null,
-        imgUrl: ''
-      }
       this.$refs['formValidate'].resetFields()
     }
   },

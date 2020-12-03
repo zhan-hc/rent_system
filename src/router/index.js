@@ -50,6 +50,11 @@ const router = new Router({
           path: 'Product/color',
           name: '颜色管理',
           component: () => import('@/Pages/Product/color')
+        },
+        {
+          path: 'Product/category',
+          name: '类别管理',
+          component: () => import('@/Pages/Product/category')
         }
       ]
     },

@@ -21,7 +21,7 @@
       </Header>
       <Layout>
         <Sider hide-trigger :style="{background: '#fff'}">
-          <Menu active-name="1-1" theme="light" width="auto" :open-names="['1']">
+          <Menu theme="light" width="auto" :open-names="['1']">
               <Submenu name="1" >
                   <template slot="title">
                       <Icon type="ios-navigate"></Icon>
@@ -38,7 +38,8 @@
                   <menu-item name="2-1" to="/Index/Product/info">信息管理</menu-item>
                   <menu-item name="2-2" to="/Index/Product/stock">库存管理</menu-item>
                   <menu-item name="2-3" to="/Index/Product/size">尺码管理</menu-item>
-                <menu-item name="2-4" to="/Index/Product/color">颜色管理</menu-item>
+                  <menu-item name="2-4" to="/Index/Product/color">颜色管理</menu-item>
+                  <menu-item name="2-5" to="/Index/Product/category">类别管理</menu-item>
               </Submenu>
               <Submenu name="3">
                   <template slot="title">
