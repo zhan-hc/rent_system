@@ -40,7 +40,7 @@ export default {
     adminList () {
       this.$axios({
         method: 'get',
-        url: `/api/admin/adminList/${this.pageNo}/${this.pageSize}`
+        url: `/admin/adminList/${this.pageNo}/${this.pageSize}`
       }).then((res) => {
         if (res.data.status === 200) {
           this.Admindata = res.data.data

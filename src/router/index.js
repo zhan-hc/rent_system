@@ -10,17 +10,22 @@ const router = new Router({
   routes: [
     {
       path: '/',
-      redirect: '/Index/User'
+      redirect: '/Index/Data'
     },
     {
       path: '/Index',
       name: 'Index',
-      redirect: '/Index/User', // 重定向
+      redirect: '/Index/Data', // 重定向
       component: Index,
       meta: {
         requireAuth: true // 是否需要登录验证
       },
       children: [
+        {
+          path: 'Data',
+          name: '数据统计',
+          component: () => import('@/components/Echarts')
+        },
         {
           path: 'User',
           name: '用户管理',
@@ -55,6 +60,16 @@ const router = new Router({
           path: 'Product/category',
           name: '类别管理',
           component: () => import('@/Pages/Product/category')
+        },
+        {
+          path: 'Order',
+          name: '订单管理',
+          component: () => import('@/Pages/Order/index')
+        },
+        {
+          path: 'Appraises',
+          name: '评价管理',
+          component: () => import('@/Pages/Appraises/index')
         }
       ]
     },

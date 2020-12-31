@@ -40,7 +40,7 @@ export default {
     userList () {
       this.$axios({
         method: 'get',
-        url: '/api/user/userList',
+        url: '/user/userList',
         params: {
           pageNo: this.pageNo,
           pageSize: this.pageSize

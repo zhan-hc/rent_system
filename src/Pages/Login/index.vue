@@ -31,7 +31,7 @@ export default {
     submit () {
       this.$axios({
         method: 'POST',
-        url: '/api/Login/checkLogin',
+        url: '/Login/checkLogin',
         data: {
           'admin_name': this.username,
           'admin_pass': this.password

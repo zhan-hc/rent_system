@@ -97,7 +97,7 @@ export default {
     categoryList () {
       this.$axios({
         method: 'get',
-        url: `/api/product/category/categoryList`,
+        url: `/product/category/categoryList`,
         params: {
           pageNo: this.pageNo,
           pageSize: this.pageSize
@@ -117,7 +117,7 @@ export default {
       this.type = 2
       this.$axios({
         method: 'get',
-        url: `/api/product/category/getIdCategory/${id}`
+        url: `/product/category/getIdCategory/${id}`
       }).then((res) => {
         if (res.data.status === 200) {
           let formData = res.data.data[0]
@@ -132,7 +132,7 @@ export default {
     addCategory () {
       this.$axios({
         method: 'POST',
-        url: this.type === 1 ? '/api/product/category/addCategory' : '/api/product/category/updateCategory',
+        url: this.type === 1 ? '/product/category/addCategory' : '/product/category/updateCategory',
         data: {
           'id': this.formItem.id,
           'category': this.formItem.category
@@ -156,7 +156,7 @@ export default {
         onOk: () => {
           this.$axios({
             method: 'get',
-            url: `/api/product/category/deleteCategory/${id}`
+            url: `/product/category/deleteCategory/${id}`
           }).then((res) => {
             if (res.data.status === 200) {
               this.$Message.success(res.data.msg)

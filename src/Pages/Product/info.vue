@@ -18,7 +18,7 @@
           </Radio-group>
         </FormItem>
         <FormItem label="礼服图片">
-          <Upload action="/api/upload/img" name="test"
+          <Upload action="http://121.196.151.65:8080/upload/img" name="test"
             :on-format-error="handleFormatError"
             :on-success="uploadSuccess"
             :on-error="uploadError"
@@ -161,7 +161,7 @@ export default {
     infoList () {
       this.$axios({
         method: 'get',
-        url: `/api/product/info/infoList`,
+        url: `/product/info/infoList`,
         params: {
           pageNo: this.pageNo,
           pageSize: this.pageSize
@@ -181,7 +181,7 @@ export default {
       this.type = 2
       this.$axios({
         method: 'get',
-        url: `/api/product/info/getIdInfo/${id}`
+        url: `/product/info/getIdInfo/${id}`
       }).then((res) => {
         if (res.data.status === 200) {
           let formData = res.data.data[0]
@@ -200,7 +200,7 @@ export default {
     getCategoryList () {
       this.$axios({
         method: 'get',
-        url: `/api/product/category/categoryList`
+        url: `/product/category/categoryList`
       }).then((res) => {
         if (res.data.status === 200) {
           this.category = res.data.data
@@ -213,7 +213,7 @@ export default {
     addProduct () {
       this.$axios({
         method: 'POST',
-        url: this.type === 1 ? '/api/product/info/addProduct' : '/api/product/info/updateProduct',
+        url: this.type === 1 ? '/product/info/addProduct' : '/product/info/updateProduct',
         data: {
           'pid': this.formItem.pid,
           ...this.formItem
@@ -237,7 +237,7 @@ export default {
         onOk: () => {
           this.$axios({
             method: 'get',
-            url: `/api/product/info/deleteProduct/${id}`
+            url: `/product/info/deleteProduct/${id}`
           }).then((res) => {
             if (res.data.status === 200) {
               this.$Message.success(res.data.msg)
@@ -254,7 +254,7 @@ export default {
       this.infoList()
     },
     uploadSuccess (res, file, fileList) {
-      this.formItem.imgUrl = `/api/static${res.data}`
+      this.formItem.imgUrl = `/static${res.data}`
     },
     uploadError (error, file, fileList) {
       console.log(error)

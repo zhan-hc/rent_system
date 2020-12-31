@@ -3,35 +3,14 @@ import router from '@/router'
 import store from '@/store'
 import qs from 'qs'
 
-// const ajax = axios.create({
-//   // 联调
-//   baseURL: process.env.NODE_ENV === 'production' ? `/` : '/api',
-//   headers: {
-//     get: {
-//       'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'
-//     },
-//     post: {
-//       'Content-Type': 'application/json;charset=utf-8'
-//     }
-//   },
-//   // 是否跨站点访问控制请求
-//   withCredentials: true,
-//   timeout: 30000,
-//   transformRequest: [(data) => {
-//     data = JSON.stringify(data)
-//     return data
-//   }],
-//   validateStatus () {
-//     // 使用async-await，处理reject情况较为繁琐，所以全部返回resolve，在业务代码中处理异常
-//     return true
-//   },
-//   transformResponse: [(data) => {
-//     if (typeof data === 'string' && data.startsWith('{')) {
-//       data = JSON.parse(data)
-//     }
-//     return data
-//   }]
-// })
+// 在开发环境中的测试 development
+if (process.env.NODE_ENV === 'development') {
+  axios.defaults.baseURL = 'http://localhost:8080'
+}
+// 在生产环境中的测试 production
+if (process.env.NODE_ENV === 'production') {
+  axios.defaults.baseURL = 'http://121.196.151.65:8080'
+}
 // 添加请求拦截器
 axios.interceptors.request.use(
   config => {

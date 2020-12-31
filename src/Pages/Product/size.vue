@@ -97,7 +97,7 @@ export default {
     sizeList () {
       this.$axios({
         method: 'get',
-        url: `/api/product/size/sizeList`,
+        url: `/product/size/sizeList`,
         params: {
           pageNo: this.pageNo,
           pageSize: this.pageSize
@@ -117,7 +117,7 @@ export default {
       this.type = 2
       this.$axios({
         method: 'get',
-        url: `/api/product/size/getIdSize/${id}`
+        url: `/product/size/getIdSize/${id}`
       }).then((res) => {
         if (res.data.status === 200) {
           let formData = res.data.data[0]
@@ -132,7 +132,7 @@ export default {
     addSize () {
       this.$axios({
         method: 'POST',
-        url: this.type === 1 ? '/api/product/size/addSize' : '/api/product/size/updateSize',
+        url: this.type === 1 ? '/product/size/addSize' : '/product/size/updateSize',
         data: {
           'sid': this.formItem.sid,
           'size': this.formItem.size
@@ -156,7 +156,7 @@ export default {
         onOk: () => {
           this.$axios({
             method: 'get',
-            url: `/api/product/size/deleteSize/${id}`
+            url: `/product/size/deleteSize/${id}`
           }).then((res) => {
             if (res.data.status === 200) {
               this.$Message.success(res.data.msg)

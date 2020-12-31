@@ -22,9 +22,13 @@
       <Layout>
         <Sider hide-trigger :style="{background: '#fff'}">
           <Menu theme="light" width="auto" :open-names="['1']">
+            <menu-item name="0" to="/Index">
+                <Icon type="ios-keypad" />
+                数据统计
+              </menu-item>
               <Submenu name="1" >
                   <template slot="title">
-                      <Icon type="ios-navigate"></Icon>
+                      <Icon type="md-person" />
                       用户管理
                   </template>
                   <menu-item name="1-1" to="/Index/User">用户管理</menu-item>
@@ -32,7 +36,7 @@
               </Submenu>
               <Submenu name="2">
                   <template slot="title">
-                      <Icon type="ios-keypad"></Icon>
+                      <Icon type="ios-shirt" />
                       礼服管理
                   </template>
                   <menu-item name="2-1" to="/Index/Product/info">信息管理</menu-item>
@@ -41,14 +45,14 @@
                   <menu-item name="2-4" to="/Index/Product/color">颜色管理</menu-item>
                   <menu-item name="2-5" to="/Index/Product/category">类别管理</menu-item>
               </Submenu>
-              <Submenu name="3">
-                  <template slot="title">
-                      <Icon type="ios-analytics"></Icon>
-                      Item 3
-                  </template>
-                  <menu-item name="3-1">Option 1</menu-item>
-                  <menu-item name="3-2">Option 2</menu-item>
-              </Submenu>
+              <menu-item name="3" to="/Index/Order">
+                <Icon type="ios-keypad" />
+                订单管理
+              </menu-item>
+              <menu-item name="4" to="/Index/Appraises">
+                <Icon type="md-star" />
+                评价管理
+              </menu-item>
           </Menu>
         </Sider>
         <Layout :style="{padding: '0 24px 24px'}">

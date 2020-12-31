@@ -149,7 +149,7 @@ export default {
     stockList () {
       this.$axios({
         method: 'get',
-        url: `/api/product/stock/stockList`,
+        url: `/product/stock/stockList`,
         params: {
           name: this.search || null,
           pageNo: this.pageNo,
@@ -167,7 +167,7 @@ export default {
     infoList () {
       this.$axios({
         method: 'get',
-        url: '/api/product/info/infoList'
+        url: '/product/info/infoList'
       }).then((res) => {
         if (res.data.status === 200) {
           this.productList = res.data.data
@@ -179,7 +179,7 @@ export default {
     colorList () {
       this.$axios({
         method: 'get',
-        url: '/api/product/color/colorList'
+        url: '/product/color/colorList'
       }).then((res) => {
         if (res.data.status === 200) {
           this.colList = res.data.data
@@ -191,7 +191,7 @@ export default {
     sizeList () {
       this.$axios({
         method: 'get',
-        url: '/api/product/size/sizeList'
+        url: '/product/size/sizeList'
       }).then((res) => {
         if (res.data.status === 200) {
           this.szList = res.data.data
@@ -208,7 +208,7 @@ export default {
       this.formItem.sid = [] // 初始化尺寸
       this.$axios({
         method: 'get',
-        url: `/api/product/stock/getCidStock/${this.pid}/${id}`
+        url: `/product/stock/getCidStock/${this.pid}/${id}`
       }).then((res) => {
         const allsid = this.newszList
         const newsid = res.data.data.map(item => item.sid)
@@ -219,7 +219,7 @@ export default {
       console.log(this.formItem)
       this.$axios({
         method: 'POST',
-        url: this.type === 1 ? '/api/product/stock/addStock' : '/api/product/Stock/updateStock',
+        url: this.type === 1 ? '/product/stock/addStock' : '/product/Stock/updateStock',
         data: {
           'formItem': this.formItem,
           'id': this.formItem.id,
@@ -241,7 +241,7 @@ export default {
       this.type = 2
       this.$axios({
         method: 'get',
-        url: `/api/product/stock/getIdStock/${id}`
+        url: `/product/stock/getIdStock/${id}`
       }).then((res) => {
         console.log(res)
         if (res.data.status === 200) {
@@ -265,7 +265,7 @@ export default {
         onOk: () => {
           this.$axios({
             method: 'get',
-            url: `/api/product/stock/deleteStock/${id}`
+            url: `/product/stock/deleteStock/${id}`
           }).then((res) => {
             if (res.data.status === 200) {
               this.$Message.success(res.data.msg)

@@ -96,7 +96,7 @@ export default {
     colorList () {
       this.$axios({
         method: 'get',
-        url: `/api/product/color/colorList`,
+        url: `/product/color/colorList`,
         params: {
           pageNo: this.pageNo,
           pageSize: this.pageSize
@@ -116,7 +116,7 @@ export default {
       this.type = 2
       this.$axios({
         method: 'get',
-        url: `/api/product/color/getIdColor/${id}`
+        url: `/product/color/getIdColor/${id}`
       }).then((res) => {
         if (res.data.status === 200) {
           let formData = res.data.data[0]
@@ -131,7 +131,7 @@ export default {
     addColor () {
       this.$axios({
         method: 'POST',
-        url: this.type === 1 ? '/api/product/color/addColor' : '/api/product/color/updateColor',
+        url: this.type === 1 ? '/product/color/addColor' : '/product/color/updateColor',
         data: {
           'cid': this.formItem.cid,
           'color': this.formItem.color
@@ -154,7 +154,7 @@ export default {
         onOk: () => {
           this.$axios({
             method: 'get',
-            url: `/api/product/color/deleteColor/${id}`
+            url: `/product/color/deleteColor/${id}`
           }).then((res) => {
             if (res.data.status === 200) {
               this.$Message.success(res.data.msg)
