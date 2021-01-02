@@ -216,7 +216,6 @@ export default {
       })
     },
     addStock () {
-      console.log(this.formItem)
       this.$axios({
         method: 'POST',
         url: this.type === 1 ? '/product/stock/addStock' : '/product/Stock/updateStock',
@@ -226,7 +225,6 @@ export default {
           'stock': this.formItem.stock
         }
       }).then((res) => {
-        console.log(res)
         if (res.data.status === 200) {
           this.$Message.success(this.type === 1 ? '添加成功' : '更改成功')
           this.modal1 = false
@@ -243,7 +241,6 @@ export default {
         method: 'get',
         url: `/product/stock/getIdStock/${id}`
       }).then((res) => {
-        console.log(res)
         if (res.data.status === 200) {
           let formData = res.data.data[0]
           this.formItem = {

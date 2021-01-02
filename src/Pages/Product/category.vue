@@ -138,7 +138,6 @@ export default {
           'category': this.formItem.category
         }
       }).then((res) => {
-        console.log(res)
         if (res.data.status === 200) {
           this.$Message.success(this.type === 1 ? '添加成功' : '更改成功')
           this.modal1 = false

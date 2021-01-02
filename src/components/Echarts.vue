@@ -82,7 +82,7 @@ export default {
     getOrderCategory () {
       this.$axios({
         method: 'get',
-        url: `//order/getOrderCategory`
+        url: `/order/getOrderCategory`
       }).then((res) => {
         if (res.data.status === 200) {
           this.option.series[0].data = res.data.data.map(item => item.value)
@@ -94,7 +94,7 @@ export default {
     getUser () {
       this.$axios({
         method: 'get',
-        url: '//user/userList'
+        url: '/user/userList'
       }).then((res) => {
         if (res.data.status === 200) {
           this.numList[0].num = res.data.total
@@ -104,7 +104,7 @@ export default {
     getProduct () {
       this.$axios({
         method: 'get',
-        url: '//product/info/infoList'
+        url: '/product/info/infoList'
       }).then((res) => {
         if (res.data.status === 200) {
           this.numList[1].num = res.data.total

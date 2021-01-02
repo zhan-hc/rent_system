@@ -37,7 +37,6 @@ export default {
           'admin_pass': this.password
         }
       }).then((res) => {
-        console.log(res)
         if (res.data.status === 200) {
           this.$store.commit('$_setToken', res.data.token)
           this.$store.commit('$_setUser', this.username)
