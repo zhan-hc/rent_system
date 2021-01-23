@@ -254,7 +254,7 @@ export default {
       this.infoList()
     },
     uploadSuccess (res, file, fileList) {
-      this.formItem.imgUrl = `/static${res.data}`
+      this.formItem.imgUrl = `http://121.196.151.65:8080/static${res.data}`
     },
     uploadError (error, file, fileList) {
       console.log(error)
