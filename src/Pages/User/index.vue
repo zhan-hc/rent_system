@@ -1,5 +1,7 @@
 <template>
   <div class="User">
+    <Input v-model="mobile" style="width:150px;margin: 0 20px 20px 0" placeholder="手机号查询"/>
+    <Button type="primary" @click="userList()" style="margin: 0 0 20px 0">搜索</Button>
     <Table border max-height="500" align="center" :columns="columns1" :data="Userdata" class="User-table"></Table>
     <Page :total="total" @on-change="changePage"/>
   </div>
@@ -19,15 +21,12 @@ export default {
           key: 'username'
         },
         {
-          title: '密码',
-          key: 'password'
-        },
-        {
           title: '手机号',
           key: 'mobile'
         }
       ],
       Userdata: [],
+      mobile: null,
       total: 0,
       pageNo: 1,
       pageSize: 10
@@ -43,14 +42,16 @@ export default {
         url: '/user/userList',
         params: {
           pageNo: this.pageNo,
-          pageSize: this.pageSize
+          pageSize: this.pageSize,
+          mobile: this.mobile || null
         }
       }).then((res) => {
         if (res.data.status === 200) {
           this.Userdata = res.data.data
           this.total = res.data.total
         } else {
-          this.$Message.error(res.data.msg)
+          this.Userdata = []
+          this.total = 0
         }
       })
     },

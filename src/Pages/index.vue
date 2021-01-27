@@ -23,17 +23,21 @@
         <Sider hide-trigger :style="{background: '#fff'}">
           <Menu theme="light" width="auto" :open-names="['1']">
             <menu-item name="0" to="/Index">
-                <Icon type="ios-keypad" />
+                <Icon type="md-cube" />
                 数据统计
               </menu-item>
-              <Submenu name="1" >
+              <menu-item name="1" to="/Index/User">
+                <Icon type="md-person" />
+                会员管理
+              </menu-item>
+              <!-- <Submenu name="1" >
                   <template slot="title">
                       <Icon type="md-person" />
                       用户管理
                   </template>
                   <menu-item name="1-1" to="/Index/User">用户管理</menu-item>
                   <menu-item name="1-2" to="/Index/Admin">管理员管理</menu-item>
-              </Submenu>
+              </Submenu> -->
               <Submenu name="2">
                   <template slot="title">
                       <Icon type="ios-shirt" />
@@ -46,7 +50,7 @@
                   <menu-item name="2-5" to="/Index/Product/category">类别管理</menu-item>
               </Submenu>
               <menu-item name="3" to="/Index/Order">
-                <Icon type="ios-keypad" />
+                <Icon type="ios-book" />
                 订单管理
               </menu-item>
               <menu-item name="4" to="/Index/Appraises">
@@ -95,22 +99,22 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.ivu-layout-header,.ivu-menu-dark{
+  background: #202133;
+}
 .layout{
-  border: 1px solid #d7dde4;
-  background: #f5f7f9;
   position: relative;
-  border-radius: 4px;
   overflow: hidden;
   &-logo{
-    // width: 100px;
     height: 40px;
     border-radius: 3px;
     float: left;
     position: relative;
     top: 15px;
     left: 20px;
-    color: #000;
+    color: #DCDCDC;
     line-height: 40px;
+    letter-spacing: 2px;
     .name{
       font-weight: bold;
       font-size: 26px;

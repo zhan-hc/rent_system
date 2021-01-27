@@ -1,5 +1,13 @@
 <template>
   <div class="Index">
+    <div style="margin-bottom:20px">
+      <Input v-model="search" placeholder="请输入礼服名称关键词搜索" style="width: 250px;"/>
+      <Select v-model="cid" style="width:150px;margin-right:20px;" placeholder='礼服类型'>
+        <Option v-for="item in category" :value="item.id" :key="item.id">{{ item.product_category }}</Option>
+      </Select>
+      <Button type="primary" @click="infoList">搜索</Button>
+      <Button type="primary" @click="reset">重置</Button>
+    </div>
     <Button type="primary" @click="modal1= true;type=1">新增礼服</Button>
     <Table border max-height="500" align="center" :columns="columns" :data="data" class="Index-table"></Table>
     <Page :total="total" @on-change="changePage"/>
@@ -58,11 +66,15 @@ export default {
         },
         {
           title: '礼服价格',
-          key: 'product_price'
+          render: (h, params) => {
+            return h('div', `￥${params.row.product_price}`)
+          }
         },
         {
           title: '礼服押金',
-          key: 'product_deposit'
+          render: (h, params) => {
+            return h('div', `￥${params.row.product_deposit}`)
+          }
         },
         {
           title: '礼服图片',
@@ -143,6 +155,8 @@ export default {
       category: [],
       total: 0,
       pageNo: 1,
+      cid: null,
+      search: '',
       pageSize: 10
     }
   },
@@ -164,7 +178,9 @@ export default {
         url: `/product/info/infoList`,
         params: {
           pageNo: this.pageNo,
-          pageSize: this.pageSize
+          pageSize: this.pageSize,
+          name: this.search || null,
+          cid: this.cid
         }
       }).then((res) => {
         if (res.data.status === 200) {
@@ -190,7 +206,8 @@ export default {
             name: formData.product_name,
             price: formData.product_price,
             imgUrl: formData.product_img,
-            deposit: formData.product_deposit
+            deposit: formData.product_deposit,
+            cid: formData.category_id
           }
         } else {
           this.$Message.error(res.data.msg)
@@ -248,6 +265,12 @@ export default {
           })
         }
       })
+    },
+    // 重置
+    reset () {
+      this.cid = null
+      this.search = ''
+      this.infoList()
     },
     changePage (currentPage) {
       this.pageNo = currentPage

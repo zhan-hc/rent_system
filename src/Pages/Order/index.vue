@@ -26,7 +26,10 @@
             <b>手机号：</b>{{OrderDescList.mobile}}<br>
             <span v-show="OrderDescList.note"><b>备注：</b>{{OrderDescList.note}}</span>
           </div>
-          <div class="item-depositDesc" v-show="OrderDescList.deposit_status"><b>退还押金描述：</b>{{OrderDescList.deposit_describe}}</div>
+          <div class="item-depositDesc" v-show="OrderDescList.deposit_status">
+            <b>退还押金描述：</b>{{OrderDescList.deposit_describe}}<br>
+            <b>退还押金金额：</b>￥{{OrderDescList.deposit_refund}}<br>
+            </div>
         </div>
       </div>
       <div slot="footer">
@@ -101,21 +104,25 @@ export default {
           align: 'center',
           render: (h, params) => {
             if (!params.row.shipperCode) {
-              return h('div', [
-                h('Button', {
-                  props: {
-                    type: 'primary'
-                  },
-                  style: {
-                    marginRight: '5px'
-                  },
-                  on: {
-                    click: () => {
-                      this.openParcel(params.row.oid)
+              if (params.row.status === 0) {
+                return h('span', '无')
+              } else {
+                return h('div', [
+                  h('Button', {
+                    props: {
+                      type: 'primary'
+                    },
+                    style: {
+                      marginRight: '5px'
+                    },
+                    on: {
+                      click: () => {
+                        this.openParcel(params.row.oid)
+                      }
                     }
-                  }
-                }, '添加快递')
-              ])
+                  }, '添加快递')
+                ])
+              }
             } else {
               return h('span', params.row.shipperCode)
             }
@@ -299,6 +306,7 @@ export default {
           this.total = res.data.total
         } else {
           this.data = []
+          this.total = 0
         }
       })
     },

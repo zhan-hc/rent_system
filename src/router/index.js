@@ -28,7 +28,7 @@ const router = new Router({
         },
         {
           path: 'User',
-          name: '用户管理',
+          name: '会员管理',
           component: () => import('@/Pages/User/index')
         },
         {

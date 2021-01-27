@@ -4,11 +4,11 @@
       <Input v-model="search" placeholder="请输入关键词搜索" style="width: 300px;"/>
       <Button type="primary" @click="stockList">搜索</Button>
     </div>
-    <Button type="primary" @click="modal1= true;type=1">新增礼服</Button>
+    <Button type="primary" @click="modal1= true;type=1">新增款式</Button>
     <Table border max-height="500" align="center" :columns="columns" :data="data" class="Stock-table"></Table>
     <Page :total="total" @on-change="changePage"/>
     <Modal v-model="modal1">
-      <div slot="header">{{type === 1 ? '新增礼服' : '修改礼服'}}</div>
+      <div slot="header">{{type === 1 ?'新增款式' : '修改款式'}}</div>
       <Form :label-width="80"  :model="formItem" ref="formValidate" :rules="ruleValidate">
         <FormItem label="礼服" prop="pid">
           <Select v-model="formItem.pid" style="width:200px" placeholder="请选择礼服" @on-change="getProduct" :disabled="IfTypeAdd">

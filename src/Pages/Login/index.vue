@@ -41,7 +41,7 @@ export default {
           this.$store.commit('$_setToken', res.data.token)
           this.$store.commit('$_setUser', this.username)
           this.$Message.success('登陆成功')
-          this.$router.push('/Index/User')
+          this.$router.push('/Index/Data')
         } else {
           this.$Message.error(res.data.msg)
         }
@@ -58,7 +58,7 @@ export default {
   width: 100%;
   height: 100%;
   background-size: cover;
-  background-image: url(login-bg.jpg);
+  background-image: url(bg.jpg);
   &-card{
     position: absolute;
     top: 50%;
