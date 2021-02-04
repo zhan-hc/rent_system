@@ -368,6 +368,7 @@ export default {
           this.closeModal('parcel')
           this.oid = null
           this.orderList()
+          this.$refs['formValidate'].resetFields()
         } else {
           this.$Message.error(res.data.msg.sqlMessage)
         }

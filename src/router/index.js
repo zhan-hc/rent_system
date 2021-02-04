@@ -24,7 +24,7 @@ const router = new Router({
         {
           path: 'Data',
           name: '数据统计',
-          component: () => import('@/components/Echarts')
+          component: () => import('@/Pages/Data/index')
         },
         {
           path: 'User',
@@ -60,6 +60,11 @@ const router = new Router({
           path: 'Product/category',
           name: '类别管理',
           component: () => import('@/Pages/Product/category')
+        },
+        {
+          path: 'Product/supplier',
+          name: '供应商管理',
+          component: () => import('@/Pages/Product/supplier')
         },
         {
           path: 'Order',

@@ -25,6 +25,11 @@
             <Radio  v-for="item in category" :label="item.id" :key="item.id">{{ item.product_category }}</Radio>
           </Radio-group>
         </FormItem>
+        <FormItem label="供应商" prop="supplier">
+          <Select v-model="formItem.supplier" style="width:250px;" placeholder='供应商'>
+            <Option v-for="item in supplierList" :value="item.id" :key="item.id">{{ item.supplier }}</Option>
+          </Select>
+        </FormItem>
         <FormItem label="礼服图片">
           <Upload action="http://121.196.151.65:8080/upload/img" name="test"
             :on-format-error="handleFormatError"
@@ -75,6 +80,10 @@ export default {
           render: (h, params) => {
             return h('div', `￥${params.row.product_deposit}`)
           }
+        },
+        {
+          title: '供应商',
+          key: 'supplier'
         },
         {
           title: '礼服图片',
@@ -133,7 +142,8 @@ export default {
         price: null,
         imgUrl: '',
         cid: null,
-        deposit: null
+        deposit: null,
+        supplier: null
       },
       ruleValidate: {
         name: [
@@ -141,6 +151,9 @@ export default {
         ],
         cid: [
           { required: true, message: '请选择礼服类别', type: 'number', trigger: 'change' }
+        ],
+        supplier: [
+          { required: true, message: '请选择供应商', type: 'number', trigger: 'change' }
         ],
         price: [
           { required: true, message: '价格不能为空', trigger: 'blur', type: 'integer' }
@@ -153,6 +166,7 @@ export default {
       modal1: false,
       data: [],
       category: [],
+      supplierList: [],
       total: 0,
       pageNo: 1,
       cid: null,
@@ -163,6 +177,7 @@ export default {
   mounted () {
     this.infoList()
     this.getCategoryList()
+    this.getSupplierList()
   },
   methods: {
     handleSubmit (name) {
@@ -200,6 +215,7 @@ export default {
         url: `/product/info/getIdInfo/${id}`
       }).then((res) => {
         if (res.data.status === 200) {
+          console.log(res)
           let formData = res.data.data[0]
           this.formItem = {
             pid: id,
@@ -207,7 +223,8 @@ export default {
             price: formData.product_price,
             imgUrl: formData.product_img,
             deposit: formData.product_deposit,
-            cid: formData.category_id
+            cid: formData.category_id,
+            supplier: formData.supplier_id
           }
         } else {
           this.$Message.error(res.data.msg)
@@ -221,6 +238,18 @@ export default {
       }).then((res) => {
         if (res.data.status === 200) {
           this.category = res.data.data
+        } else {
+          this.$Message.error(res.data.msg)
+        }
+      })
+    },
+    getSupplierList () {
+      this.$axios({
+        method: 'get',
+        url: `/product/supplier/supplierList`
+      }).then((res) => {
+        if (res.data.status === 200) {
+          this.supplierList = res.data.data
         } else {
           this.$Message.error(res.data.msg)
         }
@@ -241,6 +270,7 @@ export default {
           this.modal1 = false
           this.infoList()
           this.$refs['formValidate'].resetFields()
+          this.formItem.imgUrl = ''
         } else {
           this.$Message.error(res.data.msg.sqlMessage)
         }
@@ -287,6 +317,7 @@ export default {
     },
     closeModal () {
       this.modal1 = false
+      this.formItem.imgUrl = ''
       this.$refs['formValidate'].resetFields()
     }
   },
