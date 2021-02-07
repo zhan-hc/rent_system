@@ -103,10 +103,24 @@ export default {
         },
         {
           title: '操作',
-          width: 150,
+          width: 200,
           align: 'center',
           render: (h, params) => {
             return h('div', [
+              h('Button', {
+                props: {
+                  type: 'success',
+                  size: 'small'
+                },
+                style: {
+                  marginRight: '5px'
+                },
+                on: {
+                  click: () => {
+                    this.updateProductNew(params.row.pid, params.row.ifNew === 0 ? 1 : 0)
+                  }
+                }
+              }, params.row.ifNew === 0 ? '推荐' : '普通'),
               h('Button', {
                 props: {
                   type: 'primary',
@@ -276,6 +290,29 @@ export default {
         }
       })
     },
+    updateProductNew (pid, news) {
+      this.$Modal.confirm({
+        title: '推荐提示',
+        content: news === 0 ? '是否降为普通产品？' : '是否推荐为新品？',
+        onOk: () => {
+          this.$axios({
+            method: 'POST',
+            url: '/product/info/updateProductNew',
+            data: {
+              'pid': pid,
+              'news': news
+            }
+          }).then((res) => {
+            if (res.data.status === 200) {
+              this.$Message.success('推荐成功')
+              this.infoList()
+            } else {
+              this.$Message.error(res.data.msg.sqlMessage)
+            }
+          })
+        }
+      })
+    },
     // 删除礼服信息
     deleteProduct (id) {
       this.$Modal.confirm({
@@ -320,8 +357,6 @@ export default {
       this.formItem.imgUrl = ''
       this.$refs['formValidate'].resetFields()
     }
-  },
-  components: {
   }
 }
 </script>

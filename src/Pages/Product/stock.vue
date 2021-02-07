@@ -229,6 +229,7 @@ export default {
           this.$Message.success(this.type === 1 ? '添加成功' : '更改成功')
           this.modal1 = false
           this.stockList()
+          this.$refs['formValidate'].resetFields()
         } else {
           this.$Message.error(res.data.msg.sqlMessage)
         }
