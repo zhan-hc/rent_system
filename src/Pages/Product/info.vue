@@ -229,7 +229,6 @@ export default {
         url: `/product/info/getIdInfo/${id}`
       }).then((res) => {
         if (res.data.status === 200) {
-          console.log(res)
           let formData = res.data.data[0]
           this.formItem = {
             pid: id,

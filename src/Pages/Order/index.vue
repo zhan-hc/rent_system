@@ -429,16 +429,36 @@ export default {
             url: '/order/refundDeposit',
             data: {
               oid: this.oid,
-              describe: this.depositItem.describe,
               amount: this.depositItem.amount
             }
           }).then((res) => {
             if (res.data.status === 200) {
               this.refundUrl(res.data.url)
             } else {
-              this.$Message.error(res.data.msg.sqlMessage)
+              this.$Message.error(res.data.msg)
             }
           })
+        }
+      })
+    },
+    // 退款成功更改退款信息
+    AddRefundInfo () {
+      this.$axios({
+        method: 'post',
+        url: '/order/AddRefundInfo',
+        data: {
+          oid: this.oid,
+          describe: this.depositItem.describe,
+          amount: this.depositItem.amount
+        }
+      }).then((res) => {
+        if (res.data.status === 200) {
+          this.oid = null
+          this.$Message.success('退款押金成功')
+          this.orderList()
+          this.depositModal = false
+        } else {
+          this.$Message.error(res.data.msg)
         }
       })
     },
@@ -449,13 +469,11 @@ export default {
         baseURL: '/api',
         url: `${url}`
       }).then((res) => {
-        if (res.status === 200) {
-          this.oid = null
-          this.$Message.success('退款押金成功')
-          this.orderList()
-          this.depositModal = false
+        if (res.status === 200 && res.data.alipay_trade_refund_response.code === '10000') {
+          this.AddRefundInfo()
         } else {
-          console.log(res)
+          this.$Message.error(res.data.alipay_trade_refund_response.sub_msg)
+          this.depositModal = false
         }
       })
     },

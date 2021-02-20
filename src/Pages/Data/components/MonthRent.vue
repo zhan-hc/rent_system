@@ -71,8 +71,13 @@ export default {
 
 <style scoped lang="scss">
 .MonthRent{
+  padding: 20px;
+  border-radius: 10px;
+  background: #fff;
+  box-sizing: border-box;
+  margin: 10px 2% 0 0;
   display:inline-block;
-  width: 600px;
+  width: 48%;
   height:400px;
 }
 </style>

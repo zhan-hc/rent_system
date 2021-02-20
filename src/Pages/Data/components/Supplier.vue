@@ -21,7 +21,7 @@ export default {
           {
             name: '礼服供应商',
             type: 'pie',
-            radius: '55%',
+            radius: '50%',
             selectedMode: 'single',
             data: [],
             label: {
@@ -68,7 +68,6 @@ export default {
         if (res.data.status === 200) {
           const data = res.data.data
           this.option.series[0].data = data
-          console.log(this.option.series)
           this.drawLine()
         }
       })
@@ -80,10 +79,16 @@ export default {
 <style scoped lang="scss">
 .Suppier{
   display:inline-block;
+  border-radius: 10px;
+  background: #fff;
+  width: 48%;
+  box-sizing: border-box;
   &-order{
     display:inline-block;
-    width: 600px;
+    padding: 20px;
+    width: 100%;
     height:400px;
+    box-sizing: border-box;
   }
 }
 </style>

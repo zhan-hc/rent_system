@@ -38,7 +38,7 @@ export default {
       },
       weekOption: {
         title: {
-          text: '礼服各种类折线图'
+          text: '礼服近七日销量'
         },
         color: ['#4169E1', '#FF7F50', '#3CB371', '#DC143C'],
         tooltip: {
@@ -144,10 +144,18 @@ export default {
 <style scoped lang="scss">
 .CategoryData{
   display:inline-block;
+  width: 100%;
   &-count,&-week{
+    box-sizing: border-box;
+    padding: 20px;
+    border-radius: 10px;
+    background: #fff;
     display:inline-block;
-    width: 600px;
+    width: 48%;
     height:400px;
+  }
+  &-count{
+    margin: 20px 2% 0 0;
   }
 }
 </style>
