@@ -74,6 +74,7 @@
 </template>
 
 <script>
+import {Aliaxios} from '../../utils/http'
 export default {
   data () {
     return {
@@ -464,9 +465,8 @@ export default {
     },
     // 支付宝退款url
     refundUrl (url) {
-      this.$axios({
+      Aliaxios({
         method: 'get',
-        baseURL: '/api',
         url: `${url}`
       }).then((res) => {
         if (res.status === 200 && res.data.alipay_trade_refund_response.code === '10000') {

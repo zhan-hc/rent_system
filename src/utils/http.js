@@ -11,6 +11,9 @@ if (process.env.NODE_ENV === 'development') {
 if (process.env.NODE_ENV === 'production') {
   axios.defaults.baseURL = 'http://121.196.151.65:8080'
 }
+export const Aliaxios = axios.create({
+  baseURL: 'https://openapi.alipay.com/'
+})
 // 添加请求拦截器
 axios.interceptors.request.use(
   config => {
