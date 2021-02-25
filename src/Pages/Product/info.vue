@@ -216,7 +216,7 @@ export default {
           this.data = res.data.data
           this.total = res.data.total
         } else {
-          this.$Message.error(res.data.msg)
+          this.data = []
         }
       })
     },
@@ -303,7 +303,7 @@ export default {
             }
           }).then((res) => {
             if (res.data.status === 200) {
-              this.$Message.success('推荐成功')
+              this.$Message.success(news === 0 ? '降级成功' : '推荐成功')
               this.infoList()
             } else {
               this.$Message.error(res.data.msg.sqlMessage)

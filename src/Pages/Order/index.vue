@@ -7,6 +7,7 @@
       <Option v-for="item in statusList" :value="item.value" :key="item.value">{{ item.text }}</Option>
     </Select>
     <Button type="primary" @click="orderList">搜索</Button>
+    <Button type="primary" @click="exportToExcel">导出</Button>
     <Table border max-height="500" align="center" :columns="columns1" :data="data" class="Order-table"></Table>
     <Page :total="total" @on-change="changePage"/>
     <Modal v-model="descModal">
@@ -16,7 +17,7 @@
         <div class="item-content" style="flex:1;margin-left:20px;">
           <div class="item-title"><b>{{OrderDescList.product_name}}</b></div>
           <div class="item-price"><b>租金：</b>￥ {{OrderDescList.product_price}} / 天</div>
-          <div class="item-color-size"><b>颜色/尺寸：</b>{{OrderDescList.product_color}} / {{OrderDescList.product_size}}</div>
+          <div class="item-color-size"><b>颜色/尺寸/数量：</b>{{OrderDescList.product_color}} / {{OrderDescList.product_size}}/ {{OrderDescList.num}}</div>
           <div class="item-rent"><b>租期：</b>{{rent_time(OrderDescList.startTime,OrderDescList.endTime)}}天</div>
           <div class="item-start"><b>租期区间：</b>{{formatTime(OrderDescList.startTime,1)}}----{{formatTime(OrderDescList.endTime,1)}}</div>
           <div class="item-deposit"><b>押金：</b>{{OrderDescList.product_deposit}}</div>
@@ -105,7 +106,7 @@ export default {
           align: 'center',
           render: (h, params) => {
             if (!params.row.shipperCode) {
-              if (params.row.status === 0) {
+              if (params.row.status === 0 || params.row.status === 5) {
                 return h('span', '无')
               } else {
                 return h('div', [
@@ -137,7 +138,8 @@ export default {
             else if (params.row.status === 1) status = '待发货'
             else if (params.row.status === 2) status = '待收货'
             else if (params.row.status === 3) status = '待评价'
-            else status = '订单完成'
+            else if (params.row.status === 4) status = '订单完成'
+            else status = '订单已取消'
             return h('div', status)
           }
         },
@@ -146,7 +148,7 @@ export default {
           align: 'center',
           render: (h, params) => {
             if (!params.row.deposit_status) {
-              if (params.row.status > 2) {
+              if (params.row.status > 2 && params.row.status < 5) {
                 return h('div', [
                   h('Button', {
                     props: {
@@ -233,6 +235,10 @@ export default {
         {
           value: 4,
           text: '订单完成'
+        },
+        {
+          value: 5,
+          text: '订单已取消'
         }
       ],
       uid: null,

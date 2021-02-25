@@ -42,7 +42,8 @@ export default {
             }
           }
         }]
-      }
+      },
+      tableData: []
     }
   },
   mounted () {
@@ -61,6 +62,7 @@ export default {
         if (res.data.status === 200) {
           this.option.series[0].data = res.data.data.map(item => item.value)
           this.option.xAxis.data = res.data.data.map(item => item.name)
+          this.tableData = res.data.data
           this.drawLine()
         }
       })
