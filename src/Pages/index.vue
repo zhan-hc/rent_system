@@ -51,6 +51,10 @@
               <Icon type="md-star" />
               评价管理
             </menu-item>
+            <menu-item name="5" to="/Index/Chat">
+              <Icon type="ios-chatboxes" />
+              客服聊天
+            </menu-item>
           </Menu>
         </Sider>
         <Layout :style="{padding: '0 24px 24px'}">
@@ -69,7 +73,6 @@
 export default {
   data () {
     return {
-
     }
   },
   methods: {

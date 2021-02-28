@@ -75,6 +75,11 @@ const router = new Router({
           path: 'Appraises',
           name: '评价管理',
           component: () => import('@/Pages/Appraises/index')
+        },
+        {
+          path: 'Chat',
+          name: '客服聊天',
+          component: () => import('@/Pages/Chat/index')
         }
       ]
     },
